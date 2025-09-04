@@ -243,6 +243,53 @@
         .clock-tz {
             display: none !important; /* hide timezone label */
         }
+
+        /* image modal (1.5x scale) */
+        .img-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 12000;
+            background: rgba(0,0,0,0.75);
+        }
+        .img-modal.active { display: flex; }
+        .img-modal .img-wrap {
+            max-width: calc(100vw - 40px);
+            max-height: calc(100vh - 40px);
+            overflow: auto;
+            padding: 10px;
+            border-radius: 6px;
+            position: relative;
+        }
+        .img-modal img {
+            display: block;
+            width: auto; /* JS will set scaled width */
+            height: auto;
+            user-select: none;
+            -webkit-user-drag: none;
+            cursor: zoom-out;
+            border-radius: 6px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+            background: #fff;
+        }
+        .img-modal .close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255,255,255,0.95);
+            border: none;
+            border-radius: 6px;
+            padding: 6px 8px;
+            cursor: pointer;
+            z-index: 12010;
+            font-size: 16px;
+        }
+        @media (max-width:420px){
+            .img-modal .img-wrap { max-width: 92vw; max-height: 84vh; }
+        }
+
     </style>
 </head>
 <body>
@@ -341,6 +388,14 @@
     </ul>
 
     <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+    <!-- image modal (1.5x scale preview) -->
+    <div id="imgModal" class="img-modal" aria-hidden="true" role="dialog" aria-label="Image preview">
+        <div class="img-wrap" role="document">
+            <button id="imgModalClose" class="close" aria-label="Close image">✕</button>
+            <img id="imgModalImg" alt="Preview">
+        </div>
+    </div>
 
     <div id="celebration" class="celebration-overlay" aria-hidden="true">
         <div class="celebration-bg" aria-hidden="true"></div>
@@ -724,29 +779,96 @@
         // re-sync from server every 15 minutes to correct drift
         setInterval(syncTimeFromServer, 15 * 60 * 1000);
 
-           // Attach celebration on every toggle change (mini celebration)
-           const checkboxes = Array.from(document.querySelectorAll('.switch input[type="checkbox"]'));
-           checkboxes.forEach(cb => {
-               cb.addEventListener('change', (e) => {
-                   // spawn confetti at toggle location
-                   try {
-                       const rect = e.target.getBoundingClientRect();
-                       const cx = rect.left + rect.width / 2;
-                       const cy = rect.top + rect.height / 2;
-                       spawnConfetti(cx, cy, 36);
-                   } catch (err) { /* ignore if positioning fails */ }
- 
-                   // spawn a few small party shapes (non-fullscreen)
-                   try {
-                       spawnPartyShapes(6);
-                   } catch (err) { /* ignore */ }
- 
-                  // sound removed for toggle actions
- 
-                   // also keep existing "all checked" celebration behavior
-                   setTimeout(checkAllAndCelebrate, 60);
-               });
-           });
+        // ---------- Image 1.5x popup logic ----------
+        const imgModal = document.getElementById('imgModal');
+        const imgModalImg = document.getElementById('imgModalImg');
+        const imgModalClose = document.getElementById('imgModalClose');
+
+        function openImageScaled(src, alt) {
+            if (!imgModal || !imgModalImg) return;
+            imgModalImg.src = src;
+            imgModalImg.alt = alt || 'Image preview';
+            imgModal.classList.add('active');
+            imgModal.setAttribute('aria-hidden', 'false');
+            // prevent page scroll while modal open
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+
+            imgModalImg.onload = () => {
+                try {
+                    const naturalW = imgModalImg.naturalWidth || imgModalImg.width;
+                    const naturalH = imgModalImg.naturalHeight || imgModalImg.height;
+                    // desired scale = 1.5x
+                    let w = Math.round(naturalW * 1.5);
+                    let h = Math.round(naturalH * 1.5);
+                    // cap to viewport (leave padding)
+                    const maxW = window.innerWidth - 40;
+                    const maxH = window.innerHeight - 40;
+                    const ratio = Math.min(1, Math.min(maxW / w, maxH / h));
+                    if (ratio < 1) {
+                        w = Math.round(w * ratio);
+                        h = Math.round(h * ratio);
+                    }
+                    imgModalImg.style.width = w + 'px';
+                    imgModalImg.style.height = 'auto';
+                } catch (err) {
+                    // fallback: let browser size naturally
+                }
+            };
+        }
+
+        function closeImageModal() {
+            if (!imgModal) return;
+            imgModal.classList.remove('active');
+            imgModal.setAttribute('aria-hidden', 'true');
+            imgModalImg.src = '';
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+        }
+
+        // attach click handlers to list images
+        const listImages = Array.from(document.querySelectorAll('ul li img'));
+        listImages.forEach(img => {
+            img.style.cursor = 'zoom-in';
+            img.addEventListener('click', (e) => {
+                const src = img.dataset.largeSrc || img.src;
+                openImageScaled(src, img.alt || '');
+            });
+        });
+
+        // close modal: close button, backdrop click, Escape key
+        imgModal && imgModal.addEventListener('click', (e) => {
+            if (e.target === imgModal) closeImageModal();
+        });
+        imgModalClose && imgModalClose.addEventListener('click', closeImageModal);
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && imgModal && imgModal.classList.contains('active')) closeImageModal();
+        });
+        // ---------- end image modal ----------
+
+        // Attach celebration on every toggle change (mini celebration)
+        const checkboxes = Array.from(document.querySelectorAll('.switch input[type="checkbox"]'));
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                // spawn confetti at toggle location
+                try {
+                    const rect = e.target.getBoundingClientRect();
+                    const cx = rect.left + rect.width / 2;
+                    const cy = rect.top + rect.height / 2;
+                    spawnConfetti(cx, cy, 36);
+                } catch (err) { /* ignore if positioning fails */ }
+
+                // spawn a few small party shapes (non-fullscreen)
+                try {
+                    spawnPartyShapes(6);
+                } catch (err) { /* ignore */ }
+
+               // sound removed for toggle actions
+
+                // also keep existing "all checked" celebration behavior
+                setTimeout(checkAllAndCelebrate, 60);
+            });
+        });
      })();
      </script>
 </body>
