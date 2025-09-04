@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Nakshatra's Checklist</title>
+    <title>Nakshatra's Routine</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- load handwritten fonts from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
@@ -30,18 +30,91 @@
         .item-left { display:flex; align-items:center; flex:1; min-width:200px; }
         img { width:40px; height:40px; margin-right:15px; border-radius:5px; }
 
-        .switch { position: relative; display:inline-block; width:50px; height:24px; }
-        .switch input { opacity:0; width:0; height:0; }
+        /* dinosaur-style toggle (enhanced) */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 80px;
+            height: 40px;
+            vertical-align: middle;
+        }
+        .switch input { /* keep native input accessible but visually hidden */
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
         .slider {
-            position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0;
-            background-color:#ccc; transition:.4s; border-radius:24px;
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg,#ff9b9b,#ff6b6b); /* off */
+            border-radius: 999px;
+            box-shadow: inset 0 -4px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: background 220ms linear, box-shadow 220ms linear;
+            overflow: visible;
         }
-        .slider:before {
-            position:absolute; content:""; height:18px; width:18px; left:3px; bottom:3px;
-            background:#fff; transition:.4s; border-radius:50%;
+        /* friendly dino knob */
+        .slider::before {
+            content: "🦖";
+            position: absolute;
+            left: 6px;
+            top: 50%;
+            transform: translateY(-50%) scale(1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+            transition: left 260ms cubic-bezier(.2,.9,.2,1), transform 260ms ease;
+            will-change: left, transform;
         }
-        input:checked + .slider { background-color:#4CAF50; }
-        input:checked + .slider:before { transform:translateX(26px); }
+        /* subtle dinosaur spikes along the track */
+        .slider::after {
+            content: "";
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            top: 6px;
+            height: 28px;
+            border-radius: 999px;
+            background-image:
+                linear-gradient(transparent 0 60%, rgba(0,0,0,0.03) 60% 100%),
+                radial-gradient(circle at 8% 18%, rgba(0,0,0,0.03) 0 6px, transparent 8px);
+            background-repeat: repeat-x;
+            background-size: 12px 28px, 12px 28px;
+            opacity: 0.06;
+            pointer-events: none;
+        }
+        /* checked (on) state */
+        input:checked + .slider {
+            background: linear-gradient(90deg,#7ee57a,#3fb34d);
+            box-shadow: inset 0 -4px 10px rgba(0,0,0,0.08);
+        }
+        input:checked + .slider::before {
+            left: calc(100% - 6px - 36px); /* move knob to right edge */
+            transform: translateY(-50%) scale(1.02) rotate(-8deg);
+            content: "🦕";
+        }
+        /* small 'tail' effect when on */
+        input:checked + .slider::after {
+            background-position: right;
+            opacity: 0.09;
+        }
+        /* keyboard focus */
+        input:focus-visible + .slider {
+            outline: 3px solid rgba(34,150,80,0.18);
+            outline-offset: 4px;
+        }
+        /* decrease motion for users who prefer reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .slider::before { transition: none; }
+            .slider { transition: none; }
+        }
 
         /* canvas (confetti) */
         #confetti-canvas {
@@ -179,88 +252,88 @@
         <div class="tz">IST</div>
     </div>
 
-    <h1>Nakshatra's Super Daily Routine!</h1>
+    <h1>Nakshatra's Daily Routine!</h1>
     <ul>
         <li>
             <div class="item-left">
-                <img src="images/1.jpeg" alt="Item 1">
+                <img src="img/1.png" alt="Item 1">
                 <span>The Daily Flush Mission! Let's get that morning duty done!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 2">
+                <img src="img/2.png" alt="Item 2">
                 <span>Monster Alert! Brush those teeth before the dragons come !!!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 3">
+                <img src="img/3.png" alt="Item 3">
                 <span>Rub-a-dub-dub! Time for a bath to get rid of the dirt and grime!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 4">
+                <img src="img/4.png" alt="Item 4">
                 <span>Dino-Mite Blow Dry! Roar with a hot air blast and tame that mane!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 5">
+                <img src="img/5.png" alt="Item 5">
                 <span>Lotion Party! Let's get your skin dancing with happiness!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 6">
+                <img src="img/6.png" alt="Item 6">
                 <span>The Daily Dress-Up Challenge! Get ready to rock that school look!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 7">
+                <img src="img/7.png" alt="Item 7">
                 <span>Heart-to-Heart with God! Let's have a special conversation!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 8">
+                <img src="img/8.png" alt="Item 8">
                 <span>Breakfast Rocket Fuel! Blast off into a fantastic day!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 9">
+                <img src="img/9.png" alt="Item 9">
                 <span>Mosquito Shield Activate! Let's protect you from those pesky buzzers!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 10">
+                <img src="img/10.png" alt="Item 10">
                 <span>Sunscreen Superpower! Save your skin from those sneaky UV rays!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 11">
+                <img src="img/11.png" alt="Item 11">
                 <span>Sole Mates! Let's find your shoes and get them on for an amazing day!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </li>
         <li>
             <div class="item-left">
-                <img src="https://via.placeholder.com/40" alt="Item 12">
+                <img src="img/12.png" alt="Item 12">
                 <span>Kiss Attack! Give a big hug and kiss before you conquer the classroom!</span>
             </div>
             <label class="switch"><input type="checkbox"><span class="slider"></span></label>
@@ -354,23 +427,83 @@
             }
         }
 
-        // checklist
-        const checkboxes = Array.from(document.querySelectorAll('.switch input[type="checkbox"]'));
-        checkboxes.forEach(cb => {
-            cb.addEventListener('change', (e) => {
-                const rect = e.target.getBoundingClientRect();
-                const cx = rect.left + rect.width/2;
-                const cy = rect.top + rect.height/2;
-                spawnConfetti(cx, cy, 36);
-                setTimeout(checkAllAndCelebrate, 40);
-            });
-        });
-
         // celebration logic (full-screen shapes + confetti + music)
         const celebration = document.getElementById('celebration');
         const celebrationClose = document.getElementById('celebrationClose');
         let celebrationActive = false;
         let audioCtx = null;
+
+        // Dino roar via WebAudio (synthesized noise + filter + envelope)
+        function playDinoRoar() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) { return; }
+
+            const now = audioCtx.currentTime;
+            const dur = 0.7; // short punchy roar for toggle
+
+            // create short noise buffer (with fade)
+            const buf = audioCtx.createBuffer(1, audioCtx.sampleRate * dur, audioCtx.sampleRate);
+            const d = buf.getChannelData(0);
+            for (let i = 0; i < d.length; i++) {
+                // fading noise
+                const env = 1 - Math.pow(i / d.length, 1.6);
+                d[i] = (Math.random() * 2 - 1) * env * 0.9;
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buf;
+
+            // bandpass to give bite, sweeping down to make it roar-like
+            const bp = audioCtx.createBiquadFilter();
+            bp.type = 'bandpass';
+            bp.frequency.setValueAtTime(900, now);
+            bp.Q.setValueAtTime(0.9, now);
+            bp.frequency.exponentialRampToValueAtTime(220, now + dur * 0.95);
+
+            // sub rumble oscillator
+            const osc = audioCtx.createOscillator();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(110, now);
+            osc.frequency.exponentialRampToValueAtTime(45, now + dur * 0.95);
+
+            const oscG = audioCtx.createGain();
+            oscG.gain.setValueAtTime(0.0001, now);
+            oscG.gain.exponentialRampToValueAtTime(0.22, now + 0.04);
+            oscG.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+            // light distortion for character
+            const sh = audioCtx.createWaveShaper();
+            (function makeDistortion(k = 8) {
+                const n = 4096;
+                const curve = new Float32Array(n);
+                for (let i = 0; i < n; ++i) {
+                    const x = (i * 2) / n - 1;
+                    curve[i] = (Math.atan(k * x) / Math.atan(k));
+                }
+                sh.curve = curve;
+                sh.oversample = '2x';
+            })();
+
+            // master envelope & compression-like gain
+            const master = audioCtx.createGain();
+            master.gain.setValueAtTime(0.0001, now);
+            master.gain.exponentialRampToValueAtTime(0.9, now + 0.02);
+            master.gain.exponentialRampToValueAtTime(0.001, now + dur + 0.02);
+
+            // routing
+            noise.connect(bp);
+            bp.connect(sh);
+            sh.connect(master);
+            osc.connect(oscG);
+            oscG.connect(master);
+            master.connect(audioCtx.destination);
+
+            // start/stop
+            noise.start(now);
+            osc.start(now);
+            noise.stop(now + dur + 0.02);
+            osc.stop(now + dur + 0.02);
+        }
 
         function checkAllAndCelebrate(){
             if (celebrationActive) return;
@@ -590,6 +723,30 @@
         setInterval(updateClockDisplay, 1000);
         // re-sync from server every 15 minutes to correct drift
         setInterval(syncTimeFromServer, 15 * 60 * 1000);
+
+           // Attach celebration on every toggle change (mini celebration)
+           const checkboxes = Array.from(document.querySelectorAll('.switch input[type="checkbox"]'));
+           checkboxes.forEach(cb => {
+               cb.addEventListener('change', (e) => {
+                   // spawn confetti at toggle location
+                   try {
+                       const rect = e.target.getBoundingClientRect();
+                       const cx = rect.left + rect.width / 2;
+                       const cy = rect.top + rect.height / 2;
+                       spawnConfetti(cx, cy, 36);
+                   } catch (err) { /* ignore if positioning fails */ }
+ 
+                   // spawn a few small party shapes (non-fullscreen)
+                   try {
+                       spawnPartyShapes(6);
+                   } catch (err) { /* ignore */ }
+ 
+                  // sound removed for toggle actions
+ 
+                   // also keep existing "all checked" celebration behavior
+                   setTimeout(checkAllAndCelebrate, 60);
+               });
+           });
      })();
      </script>
 </body>
