@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nakshatra's Checklist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+        li {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        .item-left {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            min-width: 200px;
+        }
+        img {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #4CAF50;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Confetti canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nakshatra's Super Daily Routine!</h1>
+    <ul>
+
+        <li>
+            <div class="item-left">
+                <img src="images/1.jpeg" alt="Item 1">
+                <span>The Daily Flush Mission! Let's get that morning duty done!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 2">
+                <span>Monster Alert! Brush those teeth before the dragons come !!!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 3">
+                <span>Rub-a-dub-dub! Time for a bath to get rid of the dirt and grime!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 4">
+                <span>Dino-Mite Blow Dry! Roar with a hot air blast and tame that mane!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 5">
+                <span>Lotion Party! Let's get your skin dancing with happiness!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 6">
+                <span>The Daily Dress-Up Challenge! Get ready to rock that school look!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 7">
+                <span>Heart-to-Heart with God! Let's have a special conversation!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 8">
+                <span>Breakfast Rocket Fuel! Blast off into a fantastic day!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 9">
+                <span>Mosquito Shield Activate! Let's protect you from those pesky buzzers!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 10">
+                <span>Sunscreen Superpower! Save your skin from those sneaky UV rays!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 11">
+                <span>Sole Mates! Let's find your shoes and get them on for an amazing day!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+        <li>
+            <div class="item-left">
+                <img src="https://via.placeholder.com/40" alt="Item 12">
+                <span>Kiss Attack! Give a big hug and kiss before you conquer the classroom!</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </li>
+    
+    </ul>
+
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+    <script>
+    (function(){
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let DPR = Math.max(1, window.devicePixelRatio || 1);
+        let W = 0, H = 0;
+        function resize() {
+            DPR = Math.max(1, window.devicePixelRatio || 1);
+            W = canvas.clientWidth * DPR;
+            H = canvas.clientHeight * DPR;
+            canvas.width = W;
+            canvas.height = H;
+            ctx.scale(DPR, DPR);
+        }
+        // ensure canvas size matches viewport CSS size
+        function syncCanvasSize() {
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            resize();
+        }
+        syncCanvasSize();
+        window.addEventListener('resize', () => {
+            syncCanvasSize();
+        });
+
+        const colors = ['#e74c3c','#f1c40f','#2ecc71','#3498db','#9b59b6','#f39c12'];
+        let particles = [];
+        let running = false;
+
+        function rand(min, max){ return Math.random()*(max-min)+min; }
+
+        function spawnConfetti(clientX, clientY, count = 40){
+            const rect = canvas.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            for(let i=0;i<count;i++){
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: rand(-6, 6),
+                    vy: rand(-12, -4),
+                    size: rand(6, 12),
+                    color: colors[Math.floor(rand(0, colors.length))],
+                    rot: rand(0, Math.PI*2),
+                    rotSpeed: rand(-0.2, 0.2),
+                    life: rand(60, 110),
+                    ttl: 0
+                });
+            }
+            if(!running){ running = true; requestAnimationFrame(loop); }
+        }
+
+        function loop(){
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            for(let i = particles.length-1; i >= 0; i--){
+                const p = particles[i];
+                p.ttl++;
+                p.vy += 0.35; // gravity
+                p.vx *= 0.99;
+                p.x += p.vx;
+                p.y += p.vy;
+                p.rot += p.rotSpeed;
+
+                // draw as rotated rectangle
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+                ctx.restore();
+
+                if(p.ttl > p.life || p.y > window.innerHeight + 50){
+                    particles.splice(i,1);
+                }
+            }
+            if(particles.length > 0){
+                requestAnimationFrame(loop);
+            } else {
+                running = false;
+            }
+        }
+
+        // attach event listeners to each checkbox
+        document.querySelectorAll('.switch input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                // find position of the switch knob visually (use bounding rect of input)
+                const rect = e.target.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                spawnConfetti(cx, cy, 50);
+            });
+            // optional: trigger small confetti on click even if not changed (for label clicks)
+            cb.addEventListener('click', (e) => {
+                // no-op; change handler is enough
+            });
+        });
+
+        // make sure canvas always covers the viewport in device pixels properly
+        // using a tiny timeout to ensure styles applied
+        setTimeout(syncCanvasSize, 50);
+    })();
+    </script>
+</body>
+</html>
